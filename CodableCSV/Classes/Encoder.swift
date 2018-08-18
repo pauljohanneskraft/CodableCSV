@@ -20,15 +20,21 @@ open class CSVEncoder {
             return encoder
         }
 
-        guard let keys = encoders.first?.codingPath
+        guard let headerTitles = encoders.first?.codingPath
             .map({ $0.stringValue })
-            .joined(separator: separatorSymbol.stringValue) else {
+            .sorted() else {
                 return Data()
         }
 
+        let keys = headerTitles.joined(separator: separatorSymbol.stringValue)
+
         let values = encoders
-            .map { $0.dictionary.values.joined(separator: separatorSymbol.stringValue) }
-            .joined(separator: separatorSymbol.stringValue + "\n") + separatorSymbol.stringValue
+            .map { value in
+                headerTitles
+                    .map { value.dictionary[$0] ?? "" }
+                    .joined(separator: separatorSymbol.stringValue)
+            }
+            .joined(separator: "\n")
 
         return (keys + separatorSymbol.stringValue + "\n" + values).data(using: .utf8)!
     }

@@ -27,7 +27,7 @@ final class CSVObjectDecoder {
     // MARK: - Init
 
     init(headerFields: [String], string: String, separatorSymbol: Character) {
-        let split = string.split(separator: separatorSymbol)
+        let split = string.split(separator: separatorSymbol, omittingEmptySubsequences: false)
         var dictionary = [String: String]()
         for i in headerFields.indices {
             dictionary[headerFields[i]] = String(split[i])

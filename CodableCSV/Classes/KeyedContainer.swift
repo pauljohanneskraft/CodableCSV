@@ -39,7 +39,7 @@ extension CSVKeyedContainer: KeyedDecodingContainerProtocol {
     }
 
     func decodeNil(forKey key: Key) throws -> Bool {
-        return dictionary[key.stringValue] == nil
+        return dictionary[key.stringValue]?.isEmpty ?? true
     }
 
     func decode(_ type: Bool.Type, forKey key: Key) throws -> Bool {
@@ -206,7 +206,9 @@ extension CSVKeyedContainer: KeyedDecodingContainerProtocol {
 // MARK: - Extension: KeyedEncodingContainerProtocol
 
 extension CSVKeyedContainer: KeyedEncodingContainerProtocol {
-    func encodeNil(forKey key: Key) throws {}
+    func encodeNil(forKey key: Key) throws {
+        dictionary[key.stringValue] = ""
+    }
 
     func encode(_ value: Bool, forKey key: Key) throws {
         dictionary[key.stringValue] = String(describing: value)
