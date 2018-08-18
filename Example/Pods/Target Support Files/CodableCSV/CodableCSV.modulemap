@@ -1,0 +1,6 @@
+framework module CodableCSV {
+  umbrella header "CodableCSV-umbrella.h"
+
+  export *
+  module * { export * }
+}

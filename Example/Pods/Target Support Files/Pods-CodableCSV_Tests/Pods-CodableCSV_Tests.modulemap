@@ -1,0 +1,6 @@
+framework module Pods_CodableCSV_Tests {
+  umbrella header "Pods-CodableCSV_Tests-umbrella.h"
+
+  export *
+  module * { export * }
+}

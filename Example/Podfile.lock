@@ -1,0 +1,16 @@
+PODS:
+  - CodableCSV (0.1.0)
+
+DEPENDENCIES:
+  - CodableCSV (from `../`)
+
+EXTERNAL SOURCES:
+  CodableCSV:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  CodableCSV: 7491aacdc0a347a5cf70456f01940d55078e7423
+
+PODFILE CHECKSUM: a2742e4e10ef0f633a99dbefed61b35ee61d9b1e
+
+COCOAPODS: 1.5.3
