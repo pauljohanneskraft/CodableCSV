@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'CodableCSV'
-  s.version          = '0.1.0'
+  s.version          = '0.1.1'
   s.summary          = 'CodableCSV allows you to encode and decode CSV files using Codable model types.'
 
   s.description      = <<-DESC
