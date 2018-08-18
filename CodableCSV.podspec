@@ -5,6 +5,7 @@ Pod::Spec.new do |s|
   s.summary          = 'CodableCSV allows you to encode and decode CSV files using Codable model types.'
 
   s.description      = <<-DESC
+ 'Encoding and decoding CSV files is really easy with CodableCSV. Just create Codable model types and parse the CSV files just like JSON or plists.'
                        DESC
 
   s.homepage         = 'https://github.com/pauljohanneskraft/CodableCSV'
