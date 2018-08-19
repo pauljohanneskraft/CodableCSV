@@ -13,6 +13,7 @@ final class CSVObjectEncoder {
     // MARK: - Stored properties
 
     var container: CSVContainer?
+    var encoders: EncoderDictionary
 
     // MARK: - Computed properties
 
@@ -27,6 +28,10 @@ final class CSVObjectEncoder {
     var dictionary: [String: String] {
         return container?.dictionary ?? [:]
     }
+
+    init(encoders: EncoderDictionary) {
+        self.encoders = encoders
+    }
 }
 
 // MARK: - Extension: Encoder
@@ -35,6 +40,7 @@ extension CSVObjectEncoder: Encoder {
     func container<Key: CodingKey>(keyedBy type: Key.Type) -> KeyedEncodingContainer<Key> {
         let container = CSVKeyedContainer<Key>()
         self.container = container
+        container.encoders = encoders
         return KeyedEncodingContainer(container)
     }
 

@@ -8,6 +8,8 @@
 import Foundation
 
 final class CSVUnkeyedEncodingContainer: UnkeyedEncodingContainer {
+    var encoders = EncoderDictionary()
+
     var codingPath: [CodingKey] {
         return []
     }
@@ -92,6 +94,6 @@ final class CSVUnkeyedEncodingContainer: UnkeyedEncodingContainer {
 
     func superEncoder() -> Encoder {
         assertionFailure("\(CSVCodingError.nestingNotSupported).")
-        return CSVObjectEncoder()
+        return CSVObjectEncoder(encoders: encoders)
     }
 }

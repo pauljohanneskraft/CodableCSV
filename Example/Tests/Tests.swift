@@ -39,6 +39,27 @@ class Tests: XCTestCase {
         XCTAssertThrowsError(try test(objects: [object]))
     }
 
+    func testNesting2() {
+        struct InnerType: Codable, Equatable {
+            var name: String
+        }
+        struct OuterType: Codable, Equatable {
+            var age: Int
+            var inner: InnerType
+        }
+
+        let objects = [OuterType(age: 10, inner: InnerType(name: "Paul")), OuterType(age: 12, inner: InnerType(name: "Peter"))]
+        let encoder = CSVEncoder()
+        encoder.register(encoder: { (inner: InnerType) in inner.name })
+        let decoder = CSVDecoder()
+        decoder.register(decoder: InnerType.init)
+
+        let encoded = try! encoder.encode(objects)
+        print(String(data: encoded, encoding: .utf8) ?? "nil")
+        let decoded = try! decoder.decode(OuterType.self, from: encoded)
+        XCTAssertEqual(objects, decoded)
+    }
+
     func testAllPrimitives() {
         struct TestType: Codable, Equatable {
             var bool: Bool?

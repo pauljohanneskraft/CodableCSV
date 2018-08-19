@@ -13,6 +13,7 @@ final class CSVObjectDecoder {
     // MARK: - Stored properties
 
     let dictionary: [String: String]
+    private let decoders: DecoderDictionary
 
     // MARK: - Computed properties
 
@@ -26,7 +27,7 @@ final class CSVObjectDecoder {
 
     // MARK: - Init
 
-    init(headers: [String], values: [String]) throws {
+    init(headers: [String], values: [String], decoders: DecoderDictionary) throws {
         guard headers.count == values.count else {
             throw CSVCodingError.headerMismatch
         }
@@ -34,6 +35,7 @@ final class CSVObjectDecoder {
         for i in headers.indices {
             dictionary[headers[i]] = values[i]
         }
+        self.decoders = decoders
         self.dictionary = dictionary
     }
 }
@@ -42,6 +44,7 @@ extension CSVObjectDecoder: Decoder {
     func container<Key: CodingKey>(keyedBy type: Key.Type) throws -> KeyedDecodingContainer<Key> {
         let container = CSVKeyedContainer<Key>()
         container.dictionary = dictionary
+        container.decoders = decoders
         return KeyedDecodingContainer(container)
     }
 

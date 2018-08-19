@@ -8,17 +8,20 @@
 
 import Foundation
 
+typealias EncoderDictionary = [String: (Encodable) -> String?]
+
 open class CSVEncoder {
     open var encoding = String.Encoding.utf8
     open var separator = CSVSeparator.comma
     open var delimiter = CSVDelimiter.newline
     open var enclosure = CSVEnclosure.doubleQuotes
+    private var encoders = EncoderDictionary()
 
     public init() {}
 
     open func encodeString<C: Codable>(_ objects: [C]) throws -> String {
         let encoders = try objects.map { object -> CSVObjectEncoder in
-            let encoder = CSVObjectEncoder()
+            let encoder = CSVObjectEncoder(encoders: self.encoders)
             try object.encode(to: encoder)
             return encoder
         }
@@ -53,5 +56,9 @@ open class CSVEncoder {
             throw CSVCodingError.wrongEncoding(encoding)
         }
         return data
+    }
+
+    open func register<C: Encodable>(encoder: @escaping (C) -> String?) {
+        encoders[String(describing: C.self)] = { encoder($0 as! C) }
     }
 }
