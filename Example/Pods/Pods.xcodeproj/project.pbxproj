@@ -19,6 +19,7 @@
 		9B30A48B21288DF400524DFF /* SingleValueContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B30A48121288DF300524DFF /* SingleValueContainer.swift */; };
 		9B30A48C21288DF400524DFF /* CSVContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B30A48221288DF400524DFF /* CSVContainer.swift */; };
 		9B30A48D21288DF400524DFF /* ObjectDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B30A48321288DF400524DFF /* ObjectDecoder.swift */; };
+		9BC8045B2128BF6F005F45DF /* UnkeyedContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC8045A2128BF6F005F45DF /* UnkeyedContainer.swift */; };
 		C336BE146FF00079198FBAF7A2D2EA49 /* Pods-CodableCSV_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 8CB85B9D20DBE5FDCABF38B205572A18 /* Pods-CodableCSV_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C4E1E5AFA16E5E13ACBF9165C90D8800 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
 		DA48D6595047AA32E88A1978DCEE494C /* Pods-CodableCSV_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = F6D6001AEBE7F1BC8C30551B48FD16DD /* Pods-CodableCSV_Tests-dummy.m */; };
@@ -59,6 +60,7 @@
 		9B30A48121288DF300524DFF /* SingleValueContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SingleValueContainer.swift; path = CodableCSV/Classes/SingleValueContainer.swift; sourceTree = "<group>"; };
 		9B30A48221288DF400524DFF /* CSVContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CSVContainer.swift; path = CodableCSV/Classes/CSVContainer.swift; sourceTree = "<group>"; };
 		9B30A48321288DF400524DFF /* ObjectDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ObjectDecoder.swift; path = CodableCSV/Classes/ObjectDecoder.swift; sourceTree = "<group>"; };
+		9BC8045A2128BF6F005F45DF /* UnkeyedContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UnkeyedContainer.swift; path = CodableCSV/Classes/UnkeyedContainer.swift; sourceTree = "<group>"; };
 		9C8C0047A1350BDA78759C412FE02CDF /* CodableCSV-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "CodableCSV-prefix.pch"; sourceTree = "<group>"; };
 		A8CE73324BEE227018E39ECB1B3F4792 /* CodableCSV.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CodableCSV.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D337355BADA8BBF999D1DB21EFDA3160 /* Pods-CodableCSV_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-CodableCSV_Tests.release.xcconfig"; sourceTree = "<group>"; };
@@ -124,6 +126,7 @@
 				9B30A47C21288DF300524DFF /* Encoder.swift */,
 				9B30A47E21288DF300524DFF /* Error.swift */,
 				9B30A47B21288DF300524DFF /* KeyedContainer.swift */,
+				9BC8045A2128BF6F005F45DF /* UnkeyedContainer.swift */,
 				9B30A48321288DF400524DFF /* ObjectDecoder.swift */,
 				9B30A47F21288DF300524DFF /* ObjectEncoder.swift */,
 				9B30A48021288DF300524DFF /* Options.swift */,
@@ -296,6 +299,7 @@
 				9B30A48621288DF400524DFF /* Encoder.swift in Sources */,
 				9B30A48A21288DF400524DFF /* Options.swift in Sources */,
 				9B30A48B21288DF400524DFF /* SingleValueContainer.swift in Sources */,
+				9BC8045B2128BF6F005F45DF /* UnkeyedContainer.swift in Sources */,
 				9B30A48421288DF400524DFF /* Decoder.swift in Sources */,
 				9B30A48921288DF400524DFF /* ObjectEncoder.swift in Sources */,
 				9B30A48C21288DF400524DFF /* CSVContainer.swift in Sources */,

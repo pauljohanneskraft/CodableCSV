@@ -32,17 +32,17 @@ final class CSVObjectEncoder {
 // MARK: - Extension: Encoder
 
 extension CSVObjectEncoder: Encoder {
-    func container<Key>(keyedBy type: Key.Type) -> KeyedEncodingContainer<Key> where Key : CodingKey {
+    func container<Key: CodingKey>(keyedBy type: Key.Type) -> KeyedEncodingContainer<Key> {
         let container = CSVKeyedContainer<Key>()
         self.container = container
         return KeyedEncodingContainer(container)
     }
 
     func unkeyedContainer() -> UnkeyedEncodingContainer {
-        fatalError("\(#function) not supported.")
+        return CSVUnkeyedEncodingContainer()
     }
 
     func singleValueContainer() -> SingleValueEncodingContainer {
-        return CSVSingleValueContainer(codingPath: [], data: "")
+        return CSVSingleValueContainer()
     }
 }

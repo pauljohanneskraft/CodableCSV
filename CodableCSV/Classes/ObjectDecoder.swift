@@ -26,8 +26,11 @@ final class CSVObjectDecoder {
 
     // MARK: - Init
 
-    init(headerFields: [String], string: String, separatorSymbol: Character) {
+    init(headerFields: [String], string: String, separatorSymbol: Character) throws {
         let split = string.split(separator: separatorSymbol, omittingEmptySubsequences: false)
+        guard split.count == headerFields.count else {
+            throw CSVCodingError.nestingNotSupported
+        }
         var dictionary = [String: String]()
         for i in headerFields.indices {
             dictionary[headerFields[i]] = String(split[i])
@@ -37,17 +40,17 @@ final class CSVObjectDecoder {
 }
 
 extension CSVObjectDecoder: Decoder {
-    func container<Key>(keyedBy type: Key.Type) throws -> KeyedDecodingContainer<Key> where Key : CodingKey {
+    func container<Key: CodingKey>(keyedBy type: Key.Type) throws -> KeyedDecodingContainer<Key> {
         let container = CSVKeyedContainer<Key>()
         container.dictionary = dictionary
         return KeyedDecodingContainer(container)
     }
 
     func unkeyedContainer() throws -> UnkeyedDecodingContainer {
-        fatalError("\(#function) not supported.")
+        throw CSVCodingError.unkeyedNotSupported
     }
 
     func singleValueContainer() throws -> SingleValueDecodingContainer {
-        return CSVSingleValueContainer(codingPath: [], data: "")
+        throw CSVCodingError.unkeyedNotSupported
     }
 }

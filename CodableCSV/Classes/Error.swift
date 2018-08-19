@@ -10,7 +10,10 @@ import Foundation
 
 enum CSVCodingError: Error {
     case wrongEncoding(String.Encoding)
-    case notSupported
+    case nestingNotSupported
+    case singleValuesNotSupported
+    case unkeyedNotSupported
+    case headerMismatch
     case keyNotFound(CodingKey)
     case couldNotEncode(Encodable.Type)
     case couldNotDecode(String, `as`: Decodable.Type)

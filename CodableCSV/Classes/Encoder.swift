@@ -9,11 +9,12 @@
 import Foundation
 
 open class CSVEncoder {
-    open var separatorSymbol = CSVSeparatorSymbol.colon
+    open var encoding = String.Encoding.utf8
+    open var separatorSymbol = CSVSeparatorSymbol.comma
 
     public init() {}
 
-    open func encode<C: Codable>(_ objects: [C]) throws -> Data {
+    open func encodeString<C: Codable>(_ objects: [C]) throws -> String {
         let encoders = try objects.map { object -> CSVObjectEncoder in
             let encoder = CSVObjectEncoder()
             try object.encode(to: encoder)
@@ -23,7 +24,7 @@ open class CSVEncoder {
         guard let headerTitles = encoders.first?.codingPath
             .map({ $0.stringValue })
             .sorted() else {
-                return Data()
+                return String()
         }
 
         let keys = headerTitles.joined(separator: separatorSymbol.stringValue)
@@ -36,6 +37,13 @@ open class CSVEncoder {
             }
             .joined(separator: "\n")
 
-        return (keys + separatorSymbol.stringValue + "\n" + values).data(using: .utf8)!
+        return keys + "\n" + values
+    }
+
+    open func encode<C: Codable>(_ objects: [C]) throws -> Data {
+        guard let data = try encodeString(objects).data(using: encoding) else {
+            throw CSVCodingError.wrongEncoding(encoding)
+        }
+        return data
     }
 }

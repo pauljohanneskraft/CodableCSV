@@ -23,12 +23,6 @@ final class CSVKeyedContainer<Key: CodingKey> {
     var allKeys: [Key] {
         return Array(dictionary.keys.map { Key(stringValue: $0)! })
     }
-
-    // MARK: - Helper methods
-
-    private func index(forKey key: Key) -> Int? {
-        return allKeys.index { $0.stringValue == key.stringValue }
-    }
 }
 
 // MARK: - Extension: KeyedDecodingContainerProtocol
@@ -187,19 +181,19 @@ extension CSVKeyedContainer: KeyedDecodingContainerProtocol {
     }
 
     func nestedContainer<NestedKey>(keyedBy type: NestedKey.Type, forKey key: Key) throws -> KeyedDecodingContainer<NestedKey> where NestedKey : CodingKey {
-        throw CSVCodingError.notSupported
+        throw CSVCodingError.nestingNotSupported
     }
 
     func nestedUnkeyedContainer(forKey key: Key) throws -> UnkeyedDecodingContainer {
-        throw CSVCodingError.notSupported
+        throw CSVCodingError.nestingNotSupported
     }
 
     func superDecoder() throws -> Decoder {
-        throw CSVCodingError.notSupported
+        throw CSVCodingError.nestingNotSupported
     }
 
     func superDecoder(forKey key: Key) throws -> Decoder {
-        throw CSVCodingError.notSupported
+        throw CSVCodingError.nestingNotSupported
     }
 }
 
@@ -270,19 +264,22 @@ extension CSVKeyedContainer: KeyedEncodingContainerProtocol {
         throw CSVCodingError.couldNotEncode(T.self)
     }
 
-    func nestedContainer<NestedKey>(keyedBy keyType: NestedKey.Type, forKey key: Key) -> KeyedEncodingContainer<NestedKey> where NestedKey : CodingKey {
-        fatalError("\(#function) not supported.")
+    func nestedContainer<NestedKey: CodingKey>(keyedBy keyType: NestedKey.Type, forKey key: Key) -> KeyedEncodingContainer<NestedKey> {
+        return KeyedEncodingContainer(CSVKeyedContainer<NestedKey>())
     }
 
     func nestedUnkeyedContainer(forKey key: Key) -> UnkeyedEncodingContainer {
-        fatalError("\(#function) not supported.")
+        assertionFailure("\(CSVCodingError.nestingNotSupported).")
+        return CSVUnkeyedEncodingContainer()
     }
 
     func superEncoder() -> Encoder {
-        fatalError("\(#function) not supported.")
+        assertionFailure("\(CSVCodingError.nestingNotSupported).")
+        return CSVObjectEncoder()
     }
 
     func superEncoder(forKey key: Key) -> Encoder {
-        fatalError("\(#function) not supported.")
+        assertionFailure("\(CSVCodingError.nestingNotSupported).")
+        return CSVObjectEncoder()
     }
 }

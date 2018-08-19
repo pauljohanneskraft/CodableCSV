@@ -42,10 +42,44 @@ class Tests: XCTestCase {
         XCTAssertNoThrow(try test(objects: [type0, type1]))
     }
 
+    func testPrimitives() {
+        XCTAssertThrowsError(try test(objects: ["hallo", "bye"]))
+        XCTAssertThrowsError(try test(objects: [["hallo", "bye"], ["hallo", "bye"]]))
+    }
+
+    func testBigData() {
+        struct SampleType: Codable {
+            var id: String
+            var code: String
+            var checkOptional: Int?
+        }
+        let data = str.data(using: .utf8)!
+        let decoded = try! CSVDecoder().decode(SampleType.self, from: data)
+        print(decoded)
+    }
+
     func test<C: Codable & Equatable>(objects: [C]) throws {
-        let encoded = try CSVEncoder().encode(objects)
-        print(String(data: encoded, encoding: .utf8) ?? "nil")
-        let decoded = try! CSVDecoder().decode(C.self, from: encoded)
-        XCTAssertEqual(objects, decoded)
+        let encoder = CSVEncoder()
+        let decoder = CSVDecoder()
+
+        for separator in [CSVSeparatorSymbol.comma, .colon, .custom("/")] {
+            encoder.separatorSymbol = separator
+            decoder.separatorSymbol = separator
+
+            let encoded = try encoder.encode(objects)
+            print(String(data: encoded, encoding: .utf8) ?? "nil")
+            let decoded = try decoder.decode(C.self, from: encoded)
+            XCTAssertEqual(objects, decoded)
+        }
     }
 }
+
+let str = """
+id,code
+3,hallo
+4,bye
+5,good
+7,check
+8,test
+2,what
+"""
