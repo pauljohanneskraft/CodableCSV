@@ -2,6 +2,20 @@ import XCTest
 import CodableCSV
 
 class Tests: XCTestCase {
+
+    func testEnclosure() {
+        struct EnclosureTestType: Codable, Equatable {
+            var title0: String
+            var title1: String
+            var title2: String
+        }
+
+        let object0 = EnclosureTestType(title0: "hallo", title1: "5,4", title2: "4;3")
+        let object1 = EnclosureTestType(title0: ",,,", title1: "5-4", title2: "4;3")
+        let object2 = EnclosureTestType(title0: ".", title1: "5\\4", title2: "4;3")
+
+        XCTAssertNoThrow(try test(objects: [object0, object1, object2]))
+    }
     
     func testPerson() {
         struct Person: Codable, Equatable {
@@ -62,12 +76,18 @@ class Tests: XCTestCase {
         let encoder = CSVEncoder()
         let decoder = CSVDecoder()
 
-        for separator in [CSVSeparatorSymbol.comma, .colon, .custom("/")] {
-            encoder.separatorSymbol = separator
-            decoder.separatorSymbol = separator
+        let separators = [CSVSeparator.comma, .colon, .custom("/")]
+        let separatorCharacters = Set(separators.map { $0.character })
+
+        for separator in separators {
+            encoder.separator = separator
+            decoder.separator = separator
 
             let encoded = try encoder.encode(objects)
             print(String(data: encoded, encoding: .utf8) ?? "nil")
+
+            let symbol = CSVSeparator.detect(from: encoded, encoding: .utf8, possibleCharacters: separatorCharacters, delimiter: encoder.delimiter, enclosure: encoder.enclosure)
+            XCTAssertEqual(symbol?.character, separator.character)
             let decoded = try decoder.decode(C.self, from: encoded)
             XCTAssertEqual(objects, decoded)
         }

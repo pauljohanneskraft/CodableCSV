@@ -26,14 +26,13 @@ final class CSVObjectDecoder {
 
     // MARK: - Init
 
-    init(headerFields: [String], string: String, separatorSymbol: Character) throws {
-        let split = string.split(separator: separatorSymbol, omittingEmptySubsequences: false)
-        guard split.count == headerFields.count else {
-            throw CSVCodingError.nestingNotSupported
+    init(headers: [String], values: [String]) throws {
+        guard headers.count == values.count else {
+            throw CSVCodingError.headerMismatch
         }
         var dictionary = [String: String]()
-        for i in headerFields.indices {
-            dictionary[headerFields[i]] = String(split[i])
+        for i in headers.indices {
+            dictionary[headers[i]] = values[i]
         }
         self.dictionary = dictionary
     }

@@ -14,6 +14,7 @@ public enum CSVCodingError: Error {
     case singleValuesNotSupported
     case unkeyedNotSupported
     case headerMismatch
+    case enclosureConflict
     case keyNotFound(CodingKey)
     case couldNotEncode(Encodable.Type)
     case couldNotDecode(String, `as`: Decodable.Type)
@@ -38,6 +39,8 @@ extension CSVCodingError: CustomStringConvertible {
             return "Could not encode value of type \(type)."
         case .couldNotDecode(let string, let type):
             return "Could not decode \"\(string)\" as \(type)."
+        case .enclosureConflict:
+            return "Data is not correctly enclosed. You may want to change the enclosure characters of the encoder/decoder."
         }
     }
 }

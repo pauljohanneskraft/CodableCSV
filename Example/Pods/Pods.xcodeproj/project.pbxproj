@@ -15,11 +15,13 @@
 		9B30A48621288DF400524DFF /* Encoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B30A47C21288DF300524DFF /* Encoder.swift */; };
 		9B30A48821288DF400524DFF /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B30A47E21288DF300524DFF /* Error.swift */; };
 		9B30A48921288DF400524DFF /* ObjectEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B30A47F21288DF300524DFF /* ObjectEncoder.swift */; };
-		9B30A48A21288DF400524DFF /* Options.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B30A48021288DF300524DFF /* Options.swift */; };
 		9B30A48B21288DF400524DFF /* SingleValueContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B30A48121288DF300524DFF /* SingleValueContainer.swift */; };
 		9B30A48C21288DF400524DFF /* CSVContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B30A48221288DF400524DFF /* CSVContainer.swift */; };
 		9B30A48D21288DF400524DFF /* ObjectDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B30A48321288DF400524DFF /* ObjectDecoder.swift */; };
 		9BC8045B2128BF6F005F45DF /* UnkeyedContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC8045A2128BF6F005F45DF /* UnkeyedContainer.swift */; };
+		9BC8045F2129A5A6005F45DF /* Separator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC8045E2129A5A6005F45DF /* Separator.swift */; };
+		9BC804612129A5B1005F45DF /* Delimiter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC804602129A5B1005F45DF /* Delimiter.swift */; };
+		9BC804632129A5CA005F45DF /* Enclosure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC804622129A5CA005F45DF /* Enclosure.swift */; };
 		C336BE146FF00079198FBAF7A2D2EA49 /* Pods-CodableCSV_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 8CB85B9D20DBE5FDCABF38B205572A18 /* Pods-CodableCSV_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C4E1E5AFA16E5E13ACBF9165C90D8800 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
 		DA48D6595047AA32E88A1978DCEE494C /* Pods-CodableCSV_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = F6D6001AEBE7F1BC8C30551B48FD16DD /* Pods-CodableCSV_Tests-dummy.m */; };
@@ -51,16 +53,18 @@
 		8CB85B9D20DBE5FDCABF38B205572A18 /* Pods-CodableCSV_Tests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-CodableCSV_Tests-umbrella.h"; sourceTree = "<group>"; };
 		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		9559FB5AAD7E62855F77DF82986EC420 /* Pods_CodableCSV_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CodableCSV_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		9B30A47A21288DF200524DFF /* Decoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Decoder.swift; path = CodableCSV/Classes/Decoder.swift; sourceTree = "<group>"; };
-		9B30A47B21288DF300524DFF /* KeyedContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KeyedContainer.swift; path = CodableCSV/Classes/KeyedContainer.swift; sourceTree = "<group>"; };
-		9B30A47C21288DF300524DFF /* Encoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Encoder.swift; path = CodableCSV/Classes/Encoder.swift; sourceTree = "<group>"; };
+		9B30A47A21288DF200524DFF /* Decoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Decoder.swift; sourceTree = "<group>"; };
+		9B30A47B21288DF300524DFF /* KeyedContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyedContainer.swift; sourceTree = "<group>"; };
+		9B30A47C21288DF300524DFF /* Encoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Encoder.swift; sourceTree = "<group>"; };
 		9B30A47E21288DF300524DFF /* Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Error.swift; path = CodableCSV/Classes/Error.swift; sourceTree = "<group>"; };
-		9B30A47F21288DF300524DFF /* ObjectEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ObjectEncoder.swift; path = CodableCSV/Classes/ObjectEncoder.swift; sourceTree = "<group>"; };
-		9B30A48021288DF300524DFF /* Options.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Options.swift; path = CodableCSV/Classes/Options.swift; sourceTree = "<group>"; };
-		9B30A48121288DF300524DFF /* SingleValueContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SingleValueContainer.swift; path = CodableCSV/Classes/SingleValueContainer.swift; sourceTree = "<group>"; };
-		9B30A48221288DF400524DFF /* CSVContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CSVContainer.swift; path = CodableCSV/Classes/CSVContainer.swift; sourceTree = "<group>"; };
-		9B30A48321288DF400524DFF /* ObjectDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ObjectDecoder.swift; path = CodableCSV/Classes/ObjectDecoder.swift; sourceTree = "<group>"; };
-		9BC8045A2128BF6F005F45DF /* UnkeyedContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UnkeyedContainer.swift; path = CodableCSV/Classes/UnkeyedContainer.swift; sourceTree = "<group>"; };
+		9B30A47F21288DF300524DFF /* ObjectEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectEncoder.swift; sourceTree = "<group>"; };
+		9B30A48121288DF300524DFF /* SingleValueContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleValueContainer.swift; sourceTree = "<group>"; };
+		9B30A48221288DF400524DFF /* CSVContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSVContainer.swift; sourceTree = "<group>"; };
+		9B30A48321288DF400524DFF /* ObjectDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectDecoder.swift; sourceTree = "<group>"; };
+		9BC8045A2128BF6F005F45DF /* UnkeyedContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnkeyedContainer.swift; sourceTree = "<group>"; };
+		9BC8045E2129A5A6005F45DF /* Separator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Separator.swift; sourceTree = "<group>"; };
+		9BC804602129A5B1005F45DF /* Delimiter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Delimiter.swift; sourceTree = "<group>"; };
+		9BC804622129A5CA005F45DF /* Enclosure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enclosure.swift; sourceTree = "<group>"; };
 		9C8C0047A1350BDA78759C412FE02CDF /* CodableCSV-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "CodableCSV-prefix.pch"; sourceTree = "<group>"; };
 		A8CE73324BEE227018E39ECB1B3F4792 /* CodableCSV.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CodableCSV.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D337355BADA8BBF999D1DB21EFDA3160 /* Pods-CodableCSV_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-CodableCSV_Tests.release.xcconfig"; sourceTree = "<group>"; };
@@ -121,16 +125,10 @@
 		3B9386B722C2E9DB5B932ACD266EF5E4 /* CodableCSV */ = {
 			isa = PBXGroup;
 			children = (
-				9B30A48221288DF400524DFF /* CSVContainer.swift */,
-				9B30A47A21288DF200524DFF /* Decoder.swift */,
-				9B30A47C21288DF300524DFF /* Encoder.swift */,
 				9B30A47E21288DF300524DFF /* Error.swift */,
-				9B30A47B21288DF300524DFF /* KeyedContainer.swift */,
-				9BC8045A2128BF6F005F45DF /* UnkeyedContainer.swift */,
-				9B30A48321288DF400524DFF /* ObjectDecoder.swift */,
-				9B30A47F21288DF300524DFF /* ObjectEncoder.swift */,
-				9B30A48021288DF300524DFF /* Options.swift */,
-				9B30A48121288DF300524DFF /* SingleValueContainer.swift */,
+				9BC804652129A5E0005F45DF /* Containers */,
+				9BC804662129A5EC005F45DF /* Coders */,
+				9BC804642129A5D1005F45DF /* Options */,
 				C7E50E1323A6B5F640946CB4D12F7ED5 /* Pod */,
 				D297F529A78BDD69F020482AF8CA6A16 /* Support Files */,
 			);
@@ -155,6 +153,38 @@
 				31710342345E4B7E6C9143E4DF6342D3 /* Products */,
 				FAFA405DE226549AE6AADF2C42C6AF39 /* Targets Support Files */,
 			);
+			sourceTree = "<group>";
+		};
+		9BC804642129A5D1005F45DF /* Options */ = {
+			isa = PBXGroup;
+			children = (
+				9BC8045E2129A5A6005F45DF /* Separator.swift */,
+				9BC804622129A5CA005F45DF /* Enclosure.swift */,
+				9BC804602129A5B1005F45DF /* Delimiter.swift */,
+			);
+			path = Options;
+			sourceTree = "<group>";
+		};
+		9BC804652129A5E0005F45DF /* Containers */ = {
+			isa = PBXGroup;
+			children = (
+				9B30A48221288DF400524DFF /* CSVContainer.swift */,
+				9B30A47B21288DF300524DFF /* KeyedContainer.swift */,
+				9BC8045A2128BF6F005F45DF /* UnkeyedContainer.swift */,
+				9B30A48121288DF300524DFF /* SingleValueContainer.swift */,
+			);
+			path = Containers;
+			sourceTree = "<group>";
+		};
+		9BC804662129A5EC005F45DF /* Coders */ = {
+			isa = PBXGroup;
+			children = (
+				9B30A47A21288DF200524DFF /* Decoder.swift */,
+				9B30A47C21288DF300524DFF /* Encoder.swift */,
+				9B30A48321288DF400524DFF /* ObjectDecoder.swift */,
+				9B30A47F21288DF300524DFF /* ObjectEncoder.swift */,
+			);
+			path = Coders;
 			sourceTree = "<group>";
 		};
 		BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */ = {
@@ -294,17 +324,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9BC804632129A5CA005F45DF /* Enclosure.swift in Sources */,
 				9B30A48521288DF400524DFF /* KeyedContainer.swift in Sources */,
 				06AB7858C68525017C0153D59ECF5573 /* CodableCSV-dummy.m in Sources */,
 				9B30A48621288DF400524DFF /* Encoder.swift in Sources */,
-				9B30A48A21288DF400524DFF /* Options.swift in Sources */,
 				9B30A48B21288DF400524DFF /* SingleValueContainer.swift in Sources */,
 				9BC8045B2128BF6F005F45DF /* UnkeyedContainer.swift in Sources */,
 				9B30A48421288DF400524DFF /* Decoder.swift in Sources */,
 				9B30A48921288DF400524DFF /* ObjectEncoder.swift in Sources */,
 				9B30A48C21288DF400524DFF /* CSVContainer.swift in Sources */,
 				9B30A48821288DF400524DFF /* Error.swift in Sources */,
+				9BC804612129A5B1005F45DF /* Delimiter.swift in Sources */,
 				9B30A48D21288DF400524DFF /* ObjectDecoder.swift in Sources */,
+				9BC8045F2129A5A6005F45DF /* Separator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

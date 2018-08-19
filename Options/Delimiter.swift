@@ -1,18 +1,17 @@
 //
-//  Options.swift
+//  Delimiter.swift
 //  CodableCSV
 //
-//  Created by Paul Kraft on 18.08.18.
-//  Copyright © 2018 Paul Kraft. All rights reserved.
+//  Created by Paul Kraft on 19.08.18.
 //
 
 import Foundation
 
-public struct CSVSeparatorSymbol {
+public struct CSVDelimiter {
 
     // MARK: - Stored properties
 
-    let character: Character
+    public let character: Character
 
     // MARK: - Computed properties
 
@@ -28,12 +27,12 @@ public struct CSVSeparatorSymbol {
 
     // MARK: - Static properties
 
-    public static let comma = CSVSeparatorSymbol(character: ",")
-    public static let colon = CSVSeparatorSymbol(character: ";")
+    public static let newline = CSVDelimiter(character: "\n")
+    public static let tab = CSVDelimiter(character: "\t")
 
     // MARK: - Static functions
 
-    public static func custom(_ character: Character) -> CSVSeparatorSymbol {
+    public static func custom(_ character: Character) -> CSVDelimiter {
         return .init(character: character)
     }
 }
