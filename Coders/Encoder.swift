@@ -12,9 +12,9 @@ typealias EncoderDictionary = [String: (Encodable) -> String?]
 
 open class CSVEncoder {
     open var encoding = String.Encoding.utf8
-    open var separator = CSVSeparator.comma
-    open var delimiter = CSVDelimiter.newline
-    open var enclosure = CSVEnclosure.doubleQuotes
+    open var separator = CSVSeparator.default
+    open var delimiter = CSVDelimiter.default
+    open var enclosure = CSVEnclosure.default
     private var encoders = EncoderDictionary()
 
     public init() {}

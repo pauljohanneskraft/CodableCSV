@@ -11,10 +11,10 @@ import Foundation
 typealias DecoderDictionary = [String: (String) -> Decodable?]
 
 open class CSVDecoder {
-    open var separator = CSVSeparator.comma
-    open var delimiter = CSVDelimiter.newline
-    open var enclosure = CSVEnclosure.doubleQuotes
     open var encoding = String.Encoding.utf8
+    open var separator = CSVSeparator.default
+    open var delimiter = CSVDelimiter.default
+    open var enclosure = CSVEnclosure.default
     private var decoders = DecoderDictionary()
 
     public init() {}

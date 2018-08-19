@@ -27,6 +27,7 @@ public struct CSVDelimiter {
 
     // MARK: - Static properties
 
+    public static let `default` = newline
     public static let newline = CSVDelimiter(character: "\n")
     public static let tab = CSVDelimiter(character: "\t")
 

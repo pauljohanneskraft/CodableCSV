@@ -25,6 +25,7 @@ public struct CSVEnclosure {
 
     // MARK: - Static properties
 
+    public static let `default` = doubleQuotes
     public static let singleQuotes = CSVEnclosure(begin: "\'", end: "\'")
     public static let accentAigu = CSVEnclosure(begin: "´", end: "´")
     public static let accentGrave = CSVEnclosure(begin: "`", end: "`")

@@ -27,6 +27,7 @@ public struct CSVSeparator {
 
     // MARK: - Static properties
 
+    public static let `default` = comma
     public static let comma = CSVSeparator(character: ",")
     public static let colon = CSVSeparator(character: ";")
 
@@ -40,12 +41,12 @@ public struct CSVSeparator {
 // MARK: - Extension: Detection
 
 extension CSVSeparator {
-    public static func detect(from data: Data, encoding: String.Encoding = .utf8, possibleCharacters: Set<Character> = [",", ";"], delimiter: CSVDelimiter = .newline, enclosure: CSVEnclosure = .doubleQuotes) -> CSVSeparator? {
+    public static func detect(from data: Data, encoding: String.Encoding = .utf8, possibleCharacters: Set<Character> = [",", ";"], delimiter: CSVDelimiter = .default, enclosure: CSVEnclosure = .default) -> CSVSeparator? {
         guard let string = String(data: data, encoding: encoding) else { return nil }
         return detect(from: string, possibleCharacters: possibleCharacters, delimiter: delimiter, enclosure: enclosure)
     }
 
-    public static func detect(from string: String, possibleCharacters: Set<Character> = [",", ";"], delimiter: CSVDelimiter = .newline, enclosure: CSVEnclosure = .doubleQuotes) -> CSVSeparator? {
+    public static func detect(from string: String, possibleCharacters: Set<Character> = [",", ";"], delimiter: CSVDelimiter = .default, enclosure: CSVEnclosure = .default) -> CSVSeparator? {
         let rows = string.split(separator: delimiter.character)
         guard rows.count > 0 else { return nil }
         for character in possibleCharacters {
