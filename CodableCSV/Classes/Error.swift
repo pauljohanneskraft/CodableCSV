@@ -20,6 +20,8 @@ public enum CSVCodingError: Error {
     case couldNotDecode(String, `as`: Decodable.Type)
 }
 
+// MARK: - Extension: CustomStringConvertible
+
 extension CSVCodingError: CustomStringConvertible {
     public var description: String {
         switch self {

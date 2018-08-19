@@ -14,8 +14,6 @@ public struct CSVEnclosure {
     public let begin: String
     public let end: String
 
-    // MARK: - Computed properties
-
     // MARK: - Init
 
     private init(begin: String, end: String) {

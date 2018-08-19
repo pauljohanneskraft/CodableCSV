@@ -11,13 +11,21 @@ import Foundation
 typealias DecoderDictionary = [String: (String) -> Decodable?]
 
 open class CSVDecoder {
+
+    // MARK: - Stored properties
+
     open var encoding = String.Encoding.utf8
     open var separator = CSVSeparator.default
     open var delimiter = CSVDelimiter.default
     open var enclosure = CSVEnclosure.default
+
     private var decoders = DecoderDictionary()
 
+    // MARK: - Init
+
     public init() {}
+
+    // MARK: - Methods
 
     open func decode<C: Decodable>(_ type: C.Type, from data: Data) throws -> [C] {
         guard let string = String(data: data, encoding: encoding) else {
@@ -46,8 +54,10 @@ open class CSVDecoder {
     }
 
     open func register<C: Decodable>(decoder: @escaping (String) -> C?) {
-        decoders[String(describing: C.self)] = decoder
+        decoders[C.identifier] = decoder
     }
+
+    // MARK: - Helpers
 
     private func split(row: Substring) throws -> [String] {
         return try CSVDecoder.split(row: row, separator: separator, enclosure: enclosure)

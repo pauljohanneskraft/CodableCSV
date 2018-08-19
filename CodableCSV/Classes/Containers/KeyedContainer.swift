@@ -31,30 +31,6 @@ final class CSVKeyedContainer<Key: CodingKey> {
 
 extension CSVKeyedContainer: KeyedDecodingContainerProtocol {
 
-    private func value(forKey key: Key) throws -> String {
-        guard let data = dictionary[key.stringValue] else {
-            throw CSVCodingError.keyNotFound(key)
-        }
-        return data
-    }
-
-    private func decode<C: Decodable>(_ string: String, using generate: (String) -> C?) throws -> C {
-        if let decoder = decoders[String(describing: C.self)] {
-            guard let value = decoder(string) as? C else {
-                throw CSVCodingError.couldNotDecode(string, as: C.self)
-            }
-            return value
-        }
-        guard let value = generate(string) else {
-            throw CSVCodingError.couldNotDecode(string, as: C.self)
-        }
-        return value
-    }
-
-    private func decode<C: Decodable>(using generate: (String) -> C?, forKey key: Key) throws -> C {
-        return try decode(try value(forKey: key), using: generate)
-    }
-
     func contains(_ key: Key) -> Bool {
         return dictionary.keys.contains(key.stringValue)
     }
@@ -122,7 +98,7 @@ extension CSVKeyedContainer: KeyedDecodingContainerProtocol {
 
     func decode<T>(_ type: T.Type, forKey key: Key) throws -> T where T : Decodable {
         let data = try value(forKey: key)
-        let decoder = decoders[String(describing: T.self)]
+        let decoder = decoders[T.identifier]
         return try decode(data, using: { decoder?($0) as? T })
     }
 
@@ -141,24 +117,32 @@ extension CSVKeyedContainer: KeyedDecodingContainerProtocol {
     func superDecoder(forKey key: Key) throws -> Decoder {
         throw CSVCodingError.nestingNotSupported
     }
+
+    // MARK: - Helpers
+
+    private func value(forKey key: Key) throws -> String {
+        guard let data = dictionary[key.stringValue] else {
+            throw CSVCodingError.keyNotFound(key)
+        }
+        return data
+    }
+
+    private func decode<C: Decodable>(_ string: String, using decoder: @escaping (String) -> C?) throws -> C {
+        let decode = decoders[C.identifier] ?? decoder
+        guard let value = decode(string) as? C else {
+            throw CSVCodingError.couldNotDecode(string, as: C.self)
+        }
+        return value
+    }
+
+    private func decode<C: Decodable>(using generate: @escaping (String) -> C?, forKey key: Key) throws -> C {
+        return try decode(try value(forKey: key), using: generate)
+    }
 }
 
 // MARK: - Extension: KeyedEncodingContainerProtocol
 
 extension CSVKeyedContainer: KeyedEncodingContainerProtocol {
-    func encode<C: Encodable>(_ value: C, using encode: (C) -> String?, forKey key: Key) throws {
-        if let encoder = encoders[String(describing: C.self)] {
-            guard let encoded = encoder(value) else {
-                throw CSVCodingError.couldNotEncode(C.self)
-            }
-            dictionary[key.stringValue] = encoded
-            return
-        }
-        guard let encoded = encode(value) else {
-            throw CSVCodingError.couldNotEncode(C.self)
-        }
-        dictionary[key.stringValue] = encoded
-    }
 
     func encodeNil(forKey key: Key) throws {
         try encode(String?.none, using: { _ in "" }, forKey: key)
@@ -229,17 +213,29 @@ extension CSVKeyedContainer: KeyedEncodingContainerProtocol {
     }
 
     func nestedUnkeyedContainer(forKey key: Key) -> UnkeyedEncodingContainer {
-        assertionFailure("\(CSVCodingError.nestingNotSupported).")
+        assertionFailure(CSVCodingError.nestingNotSupported.description)
         return CSVUnkeyedEncodingContainer()
     }
 
     func superEncoder() -> Encoder {
-        assertionFailure("\(CSVCodingError.nestingNotSupported).")
+        assertionFailure(CSVCodingError.nestingNotSupported.description)
         return CSVObjectEncoder(encoders: encoders)
     }
 
     func superEncoder(forKey key: Key) -> Encoder {
-        assertionFailure("\(CSVCodingError.nestingNotSupported).")
+        assertionFailure(CSVCodingError.nestingNotSupported.description)
         return CSVObjectEncoder(encoders: encoders)
     }
+
+    // MARK: - Helpers
+
+    private func encode<C: Encodable>(_ value: C, using encoder: @escaping (C) -> String?, forKey key: Key) throws {
+
+        let encode = encoders[C.identifier] ?? encoder
+        guard let encoded = encode(value) else {
+            throw CSVCodingError.couldNotEncode(C.self)
+        }
+        dictionary[key.stringValue] = encoded
+    }
+
 }

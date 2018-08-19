@@ -13,6 +13,7 @@ final class CSVObjectDecoder {
     // MARK: - Stored properties
 
     let dictionary: [String: String]
+    
     private let decoders: DecoderDictionary
 
     // MARK: - Computed properties
@@ -39,6 +40,8 @@ final class CSVObjectDecoder {
         self.dictionary = dictionary
     }
 }
+
+// MARK: - Extension: Decoder
 
 extension CSVObjectDecoder: Decoder {
     func container<Key: CodingKey>(keyedBy type: Key.Type) throws -> KeyedDecodingContainer<Key> {

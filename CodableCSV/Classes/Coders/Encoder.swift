@@ -11,14 +11,22 @@ import Foundation
 typealias EncoderDictionary = [String: (Encodable) -> String?]
 
 open class CSVEncoder {
+
+    // MARK: - Stored properties
+
     open var encoding = String.Encoding.utf8
     open var separator = CSVSeparator.default
     open var delimiter = CSVDelimiter.default
     open var enclosure = CSVEnclosure.default
     open var sorting: (String, String) -> Bool = { $0 < $1 }
+
     private var encoders = EncoderDictionary()
 
+    // MARK: - Init
+
     public init() {}
+
+    // MARK: - Methods
 
     open func encodeString<C: Codable>(_ objects: [C]) throws -> String {
         let encoders = try objects.map { object -> CSVObjectEncoder in
@@ -60,6 +68,6 @@ open class CSVEncoder {
     }
 
     open func register<C: Encodable>(encoder: @escaping (C) -> String?) {
-        encoders[String(describing: C.self)] = { encoder($0 as! C) }
+        encoders[C.identifier] = { encoder($0 as! C) }
     }
 }

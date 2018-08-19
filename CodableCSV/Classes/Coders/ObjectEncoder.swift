@@ -29,6 +29,8 @@ final class CSVObjectEncoder {
         return container?.dictionary ?? [:]
     }
 
+    // MARK: - Init
+
     init(encoders: EncoderDictionary) {
         self.encoders = encoders
     }

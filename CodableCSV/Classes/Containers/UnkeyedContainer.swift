@@ -7,8 +7,18 @@
 
 import Foundation
 
-final class CSVUnkeyedEncodingContainer: UnkeyedEncodingContainer {
+final class CSVUnkeyedEncodingContainer {
+
+    // MARK: - Stored properties
+
     var encoders = EncoderDictionary()
+}
+
+// MARK: - Extension: UnkeyedEncodingContainer
+
+extension CSVUnkeyedEncodingContainer: UnkeyedEncodingContainer {
+
+    // MARK: - Computed properties
 
     var codingPath: [CodingKey] {
         return []
@@ -17,6 +27,8 @@ final class CSVUnkeyedEncodingContainer: UnkeyedEncodingContainer {
     var count: Int {
         return 0
     }
+
+    // MARK: - Methods
 
     func encodeNil() throws {
         throw CSVCodingError.unkeyedNotSupported
@@ -83,17 +95,17 @@ final class CSVUnkeyedEncodingContainer: UnkeyedEncodingContainer {
     }
 
     func nestedContainer<NestedKey>(keyedBy keyType: NestedKey.Type) -> KeyedEncodingContainer<NestedKey> where NestedKey : CodingKey {
-        assertionFailure("\(CSVCodingError.nestingNotSupported).")
+        assertionFailure(CSVCodingError.nestingNotSupported.description)
         return KeyedEncodingContainer(CSVKeyedContainer<NestedKey>())
     }
 
     func nestedUnkeyedContainer() -> UnkeyedEncodingContainer {
-        assertionFailure("\(CSVCodingError.nestingNotSupported).")
+        assertionFailure(CSVCodingError.nestingNotSupported.description)
         return CSVUnkeyedEncodingContainer()
     }
 
     func superEncoder() -> Encoder {
-        assertionFailure("\(CSVCodingError.nestingNotSupported).")
+        assertionFailure(CSVCodingError.nestingNotSupported.description)
         return CSVObjectEncoder(encoders: encoders)
     }
 }
