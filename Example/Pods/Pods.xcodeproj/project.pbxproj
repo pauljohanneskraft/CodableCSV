@@ -162,7 +162,8 @@
 				9BC804622129A5CA005F45DF /* Enclosure.swift */,
 				9BC804602129A5B1005F45DF /* Delimiter.swift */,
 			);
-			path = Options;
+			name = Options;
+			path = CodableCSV/Classes/Options;
 			sourceTree = "<group>";
 		};
 		9BC804652129A5E0005F45DF /* Containers */ = {
@@ -173,7 +174,8 @@
 				9BC8045A2128BF6F005F45DF /* UnkeyedContainer.swift */,
 				9B30A48121288DF300524DFF /* SingleValueContainer.swift */,
 			);
-			path = Containers;
+			name = Containers;
+			path = CodableCSV/Classes/Containers;
 			sourceTree = "<group>";
 		};
 		9BC804662129A5EC005F45DF /* Coders */ = {
@@ -184,7 +186,8 @@
 				9B30A48321288DF400524DFF /* ObjectDecoder.swift */,
 				9B30A47F21288DF300524DFF /* ObjectEncoder.swift */,
 			);
-			path = Coders;
+			name = Coders;
+			path = CodableCSV/Classes/Coders;
 			sourceTree = "<group>";
 		};
 		BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */ = {
