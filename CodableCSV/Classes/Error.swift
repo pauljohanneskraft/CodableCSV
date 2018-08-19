@@ -18,3 +18,26 @@ enum CSVCodingError: Error {
     case couldNotEncode(Encodable.Type)
     case couldNotDecode(String, `as`: Decodable.Type)
 }
+
+extension CSVCodingError: CustomStringConvertible {
+    var description: String {
+        switch self {
+        case .wrongEncoding(let encoding):
+            return "Data is not encoded using \(encoding)."
+        case .nestingNotSupported:
+            return "CodableCSV does not support nested types."
+        case .singleValuesNotSupported:
+            return "CodableCSV does not support single values."
+        case .unkeyedNotSupported:
+            return "CodableCSV does not support unkeyed containers."
+        case .headerMismatch:
+            return "The header title count did not match the amount of detected values. You might want to change the separator symbol to circumvent problems regarding this issue."
+        case .keyNotFound(let key):
+            return "Could not find value for key \"\(key)\"."
+        case .couldNotEncode(let type):
+            return "Could not encode value of type \(type)."
+        case .couldNotDecode(let string, let type):
+            return "Could not decode \"\(string)\" as \(type)."
+        }
+    }
+}
