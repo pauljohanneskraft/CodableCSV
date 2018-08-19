@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum CSVCodingError: Error {
+public enum CSVCodingError: Error {
     case wrongEncoding(String.Encoding)
     case nestingNotSupported
     case singleValuesNotSupported
@@ -20,7 +20,7 @@ enum CSVCodingError: Error {
 }
 
 extension CSVCodingError: CustomStringConvertible {
-    var description: String {
+    public var description: String {
         switch self {
         case .wrongEncoding(let encoding):
             return "Data is not encoded using \(encoding)."
