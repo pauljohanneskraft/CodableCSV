@@ -16,8 +16,8 @@ class Tests: XCTestCase {
 
         XCTAssertNoThrow(try test(objects: [object0, object1, object2]))
 
+        let objects = (0..<1000).flatMap { _ in [object0, object1, object2] }
         measure {
-            let objects = (0..<200).flatMap { _ in [object0, object1, object2] }
             measurableTest(objects: objects)
         }
     }
@@ -31,8 +31,9 @@ class Tests: XCTestCase {
         let person = Person(name: "Paul", age: 22)
         XCTAssertNoThrow(try test(objects: [person]))
 
+        let objects = (0..<1000).map { _ in person }
         measure {
-            measurableTest(objects: [person])
+            measurableTest(objects: objects)
         }
     }
 
@@ -47,8 +48,9 @@ class Tests: XCTestCase {
         let object = OuterType(inner: InnerType(name: "Paul"))
         XCTAssertThrowsError(try test(objects: [object]))
 
+        let objects = (0..<1000).map { _ in object }
         measure {
-            measurableTest(objects: [object])
+            measurableTest(objects: objects)
         }
     }
 
@@ -72,8 +74,9 @@ class Tests: XCTestCase {
         let decoded = try! decoder.decode(OuterType.self, from: encoded)
         XCTAssertEqual(objects, decoded)
 
+        let o = (0..<1000).flatMap { _ in objects }
         measure {
-            measurableTest(objects: objects)
+            measurableTest(objects: o)
         }
     }
 
@@ -93,8 +96,9 @@ class Tests: XCTestCase {
         let type1 = TestType(bool: nil, int: 6, double: 5, float: 4, int64: 3, int32: 2, int16: 1, int8: 0)
         XCTAssertNoThrow(try test(objects: [type0, type1]))
 
+        let objects = (0..<1000).flatMap { _ in [type0, type1] }
         measure {
-            measurableTest(objects: [type0, type1])
+            measurableTest(objects: objects)
         }
     }
 
