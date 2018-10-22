@@ -19,6 +19,8 @@
 		9B30A48C21288DF400524DFF /* CSVContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B30A48221288DF400524DFF /* CSVContainer.swift */; };
 		9B30A48D21288DF400524DFF /* ObjectDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B30A48321288DF400524DFF /* ObjectDecoder.swift */; };
 		9B6F9FCC212A22E2009E18DA /* Codable+Identifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6F9FCB212A22E2009E18DA /* Codable+Identifier.swift */; };
+		9B6F9FCE212A263E009E18DA /* Nesting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6F9FCD212A263E009E18DA /* Nesting.swift */; };
+		9B6F9FD0212A9E63009E18DA /* NestedKeyedContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6F9FCF212A9E63009E18DA /* NestedKeyedContainer.swift */; };
 		9BC8045B2128BF6F005F45DF /* UnkeyedContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC8045A2128BF6F005F45DF /* UnkeyedContainer.swift */; };
 		9BC8045F2129A5A6005F45DF /* Separator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC8045E2129A5A6005F45DF /* Separator.swift */; };
 		9BC804612129A5B1005F45DF /* Delimiter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC804602129A5B1005F45DF /* Delimiter.swift */; };
@@ -63,6 +65,8 @@
 		9B30A48221288DF400524DFF /* CSVContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSVContainer.swift; sourceTree = "<group>"; };
 		9B30A48321288DF400524DFF /* ObjectDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectDecoder.swift; sourceTree = "<group>"; };
 		9B6F9FCB212A22E2009E18DA /* Codable+Identifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Codable+Identifier.swift"; path = "CodableCSV/Classes/Codable+Identifier.swift"; sourceTree = "<group>"; };
+		9B6F9FCD212A263E009E18DA /* Nesting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nesting.swift; sourceTree = "<group>"; };
+		9B6F9FCF212A9E63009E18DA /* NestedKeyedContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NestedKeyedContainer.swift; sourceTree = "<group>"; };
 		9BC8045A2128BF6F005F45DF /* UnkeyedContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnkeyedContainer.swift; sourceTree = "<group>"; };
 		9BC8045E2129A5A6005F45DF /* Separator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Separator.swift; sourceTree = "<group>"; };
 		9BC804602129A5B1005F45DF /* Delimiter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Delimiter.swift; sourceTree = "<group>"; };
@@ -161,6 +165,7 @@
 		9BC804642129A5D1005F45DF /* Options */ = {
 			isa = PBXGroup;
 			children = (
+				9B6F9FCD212A263E009E18DA /* Nesting.swift */,
 				9BC8045E2129A5A6005F45DF /* Separator.swift */,
 				9BC804622129A5CA005F45DF /* Enclosure.swift */,
 				9BC804602129A5B1005F45DF /* Delimiter.swift */,
@@ -176,6 +181,7 @@
 				9B30A47B21288DF300524DFF /* KeyedContainer.swift */,
 				9BC8045A2128BF6F005F45DF /* UnkeyedContainer.swift */,
 				9B30A48121288DF300524DFF /* SingleValueContainer.swift */,
+				9B6F9FCF212A9E63009E18DA /* NestedKeyedContainer.swift */,
 			);
 			name = Containers;
 			path = CodableCSV/Classes/Containers;
@@ -334,6 +340,7 @@
 				9B30A48521288DF400524DFF /* KeyedContainer.swift in Sources */,
 				06AB7858C68525017C0153D59ECF5573 /* CodableCSV-dummy.m in Sources */,
 				9B6F9FCC212A22E2009E18DA /* Codable+Identifier.swift in Sources */,
+				9B6F9FCE212A263E009E18DA /* Nesting.swift in Sources */,
 				9B30A48621288DF400524DFF /* Encoder.swift in Sources */,
 				9B30A48B21288DF400524DFF /* SingleValueContainer.swift in Sources */,
 				9BC8045B2128BF6F005F45DF /* UnkeyedContainer.swift in Sources */,
@@ -342,6 +349,7 @@
 				9B30A48C21288DF400524DFF /* CSVContainer.swift in Sources */,
 				9B30A48821288DF400524DFF /* Error.swift in Sources */,
 				9BC804612129A5B1005F45DF /* Delimiter.swift in Sources */,
+				9B6F9FD0212A9E63009E18DA /* NestedKeyedContainer.swift in Sources */,
 				9B30A48D21288DF400524DFF /* ObjectDecoder.swift in Sources */,
 				9BC8045F2129A5A6005F45DF /* Separator.swift in Sources */,
 			);

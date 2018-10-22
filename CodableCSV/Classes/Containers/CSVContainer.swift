@@ -11,6 +11,8 @@ import Foundation
 protocol CSVContainer {
     var codingPath: [CodingKey] { get }
     var dictionary: [String: String] { get }
+    var decoders: DecoderDictionary { get }
+    var encoders: EncoderDictionary { get }
 }
 
 extension CSVKeyedContainer: CSVContainer {}
