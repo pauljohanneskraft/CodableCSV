@@ -20,12 +20,14 @@ final class CSVNestedKeyedContainer<Key: CodingKey> {
 }
 
 extension CSVNestedKeyedContainer: CSVContainer {
-    lazy var dictionary: [String : String] = {
+    var dictionary: [String : String] {
         var dict = [String: String]()
         for (key, value) in superContainer.dictionary {
-            guard key.hasPrefix(superKey)
+            guard key.hasPrefix(superKey) else { continue }
+            dict[key] = value
         }
-    }()
+        return dict
+    }
 
     var decoders: DecoderDictionary {
         return superContainer.decoders
@@ -74,7 +76,7 @@ extension CSVNestedKeyedContainer: KeyedDecodingContainerProtocol {
     }
 
     func decodeNil(forKey key: Key) throws -> Bool {
-        // <#code#>
+        return false
     }
 
     func decode(_ type: Bool.Type, forKey key: Key) throws -> Bool {
@@ -141,19 +143,19 @@ extension CSVNestedKeyedContainer: KeyedDecodingContainerProtocol {
     }
 
     func nestedContainer<NestedKey>(keyedBy type: NestedKey.Type, forKey key: Key) throws -> KeyedDecodingContainer<NestedKey> where NestedKey : CodingKey {
-        // <#code#>
-        let container = CSVNestedKeyedContainer(superKey: superKey + "." + key.stringValue, superContainer: self, nesting: nesting)
+        let container = CSVNestedKeyedContainer<NestedKey>(superKey: superKey + "." + key.stringValue, superContainer: self, nesting: nesting)
+        return KeyedDecodingContainer(container)
     }
 
     func nestedUnkeyedContainer(forKey key: Key) throws -> UnkeyedDecodingContainer {
-        // <#code#>
+        throw CSVCodingError.unkeyedNotSupported
     }
 
     func superDecoder() throws -> Decoder {
-        // <#code#>
+        throw CSVCodingError.unkeyedNotSupported
     }
 
     func superDecoder(forKey key: Key) throws -> Decoder {
-        // <#code#>
+        throw CSVCodingError.unkeyedNotSupported
     }
 }
