@@ -18,7 +18,6 @@ open class CSVDecoder {
     open var separator = CSVSeparator.default
     open var delimiter = CSVDelimiter.default
     open var enclosure = CSVEnclosure.default
-    open var nesting = CSVNesting.default
 
     private var decoders = DecoderDictionary()
 

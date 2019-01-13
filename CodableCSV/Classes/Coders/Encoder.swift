@@ -18,7 +18,6 @@ open class CSVEncoder {
     open var separator = CSVSeparator.default
     open var delimiter = CSVDelimiter.default
     open var enclosure = CSVEnclosure.default
-    open var nesting = CSVNesting.default
     open var sorting: (String, String) -> Bool = { $0 < $1 }
 
     private var encoders = EncoderDictionary()
