@@ -157,11 +157,11 @@ extension CSVKeyedContainer: KeyedEncodingContainerProtocol {
     }
 
     func encode(_ value: Double, forKey key: Key) throws {
-        try encode(value, using: String.init, forKey: key)
+        try encode(value, using: String.init(describing:), forKey: key)
     }
 
     func encode(_ value: Float, forKey key: Key) throws {
-        try encode(value, using: String.init, forKey: key)
+        try encode(value, using: String.init(describing:), forKey: key)
     }
 
     func encode(_ value: Int, forKey key: Key) throws {
