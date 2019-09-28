@@ -1,6 +1,0 @@
-use_frameworks!
-target 'CodableCSV_Tests' do
-  pod 'CodableCSV', :path => '../'
-  
-  
-end

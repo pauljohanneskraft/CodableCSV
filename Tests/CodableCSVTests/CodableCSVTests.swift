@@ -1,7 +1,11 @@
 import XCTest
-import CodableCSV
+@testable import CodableCSV
 
-class Tests: XCTestCase {
+final class CodableCSVTests: XCTestCase {
+
+    static var allTests = [
+        ("testEnclosure", testEnclosure),
+    ]
 
     func testEnclosure() {
         struct EnclosureTestType: Codable, Equatable {
@@ -21,7 +25,7 @@ class Tests: XCTestCase {
             measurableTest(objects: objects)
         }
     }
-    
+
     func testPerson() {
         struct Person: Codable, Equatable {
             var name: String
