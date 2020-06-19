@@ -10,21 +10,22 @@ import Foundation
 
 final class CSVKeyedContainer<Key: CodingKey> {
 
-    // MARK: - Stored properties
+    // MARK: Stored Properties
 
     var dictionary = [String: String]()
     var decoders = DecoderDictionary()
     var encoders = EncoderDictionary()
 
-    // MARK: - Computed properties
+    // MARK: Computed Properties
 
     var codingPath: [CodingKey] {
         return allKeys
     }
 
     var allKeys: [Key] {
-        return Array(dictionary.keys.map { Key(stringValue: $0)! })
+        return Array(dictionary.keys.compactMap { Key(stringValue: $0) })
     }
+
 }
 
 // MARK: - Extension: KeyedDecodingContainerProtocol
@@ -118,7 +119,7 @@ extension CSVKeyedContainer: KeyedDecodingContainerProtocol {
         throw CSVCodingError.nestingNotSupported
     }
 
-    // MARK: - Helpers
+    // MARK: Helpers
 
     private func value(forKey key: Key) throws -> String {
         guard let data = dictionary[key.stringValue] else {
@@ -138,6 +139,7 @@ extension CSVKeyedContainer: KeyedDecodingContainerProtocol {
     private func decode<C: Decodable>(using generate: @escaping (String) -> C?, forKey key: Key) throws -> C {
         return try decode(try value(forKey: key), using: generate)
     }
+
 }
 
 // MARK: - Extension: KeyedEncodingContainerProtocol
@@ -227,7 +229,7 @@ extension CSVKeyedContainer: KeyedEncodingContainerProtocol {
         return CSVObjectEncoder(encoders: encoders)
     }
 
-    // MARK: - Helpers
+    // MARK: Helpers
 
     private func encode<C: Encodable>(_ value: C, using encoder: @escaping (C) -> String?, forKey key: Key) throws {
 

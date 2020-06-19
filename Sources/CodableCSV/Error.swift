@@ -23,6 +23,7 @@ public enum CSVCodingError: Error {
 // MARK: - Extension: CustomStringConvertible
 
 extension CSVCodingError: CustomStringConvertible {
+
     public var description: String {
         switch self {
         case .wrongEncoding(let encoding):
@@ -45,4 +46,5 @@ extension CSVCodingError: CustomStringConvertible {
             return "Data is not correctly enclosed. You may want to change the enclosure characters of the encoder/decoder."
         }
     }
+
 }

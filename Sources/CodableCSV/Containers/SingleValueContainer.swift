@@ -10,9 +10,10 @@ import Foundation
 
 struct CSVSingleValueContainer {
 
-    // MARK: - Stored properties
+    // MARK: Stored Properties
 
     var codingPath: [CodingKey] { return [] }
+
 }
 
 // MARK: - Extension: SingleValueEncodingContainer
@@ -82,4 +83,5 @@ extension CSVSingleValueContainer: SingleValueEncodingContainer {
     mutating func encode<T>(_ value: T) throws where T : Encodable {
         throw CSVCodingError.singleValuesNotSupported
     }
+
 }

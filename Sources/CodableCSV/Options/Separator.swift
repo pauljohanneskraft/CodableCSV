@@ -9,38 +9,40 @@ import Foundation
 
 public struct CSVSeparator {
 
-    // MARK: - Stored properties
+    // MARK: Stored Properties
 
     public let character: Character
 
-    // MARK: - Computed properties
+    // MARK: Computed Properties
 
     var stringValue: String {
         return String(character)
     }
 
-    // MARK: - Init
+    // MARK: Initialization
 
     private init(character: Character) {
         self.character = character
     }
 
-    // MARK: - Static properties
+    // MARK: Static Properties
 
     public static let `default` = comma
     public static let comma = CSVSeparator(character: ",")
     public static let colon = CSVSeparator(character: ";")
 
-    // MARK: - Static functions
+    // MARK: Static Functions
 
     public static func custom(_ character: Character) -> CSVSeparator {
         return .init(character: character)
     }
+
 }
 
 // MARK: - Extension: Detection
 
 extension CSVSeparator {
+
     public static func detect(from data: Data, encoding: String.Encoding = .utf8, possibleCharacters: Set<Character> = [",", ";"], delimiter: CSVDelimiter = .default, enclosure: CSVEnclosure = .default) -> CSVSeparator? {
         guard let string = String(data: data, encoding: encoding) else { return nil }
         return detect(from: string, possibleCharacters: possibleCharacters, delimiter: delimiter, enclosure: enclosure)
@@ -56,11 +58,13 @@ extension CSVSeparator {
                 continue
             }
             let optimalColumnCount = columnCount[0]
-            guard optimalColumnCount > 1, !columnCount.contains(where: { $0 != optimalColumnCount }) else {
-                continue
+            guard optimalColumnCount > 1,
+                !columnCount.contains(where: { $0 != optimalColumnCount }) else {
+                    continue
             }
             return .init(character: character)
         }
         return nil
     }
+
 }

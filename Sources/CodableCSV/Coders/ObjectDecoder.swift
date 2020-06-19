@@ -10,13 +10,13 @@ import Foundation
 
 final class CSVObjectDecoder {
 
-    // MARK: - Stored properties
+    // MARK: Stored Properties
 
     let dictionary: [String: String]
     
     private let decoders: DecoderDictionary
 
-    // MARK: - Computed properties
+    // MARK: Computed Properties
 
     var codingPath: [CodingKey] {
         return []
@@ -26,7 +26,7 @@ final class CSVObjectDecoder {
         return [:]
     }
 
-    // MARK: - Init
+    // MARK: Initialization
 
     init(headers: [String], values: [String], decoders: DecoderDictionary) throws {
         guard headers.count == values.count else {
@@ -39,11 +39,13 @@ final class CSVObjectDecoder {
         self.decoders = decoders
         self.dictionary = dictionary
     }
+
 }
 
 // MARK: - Extension: Decoder
 
 extension CSVObjectDecoder: Decoder {
+
     func container<Key: CodingKey>(keyedBy type: Key.Type) throws -> KeyedDecodingContainer<Key> {
         let container = CSVKeyedContainer<Key>()
         container.dictionary = dictionary
@@ -58,4 +60,5 @@ extension CSVObjectDecoder: Decoder {
     func singleValueContainer() throws -> SingleValueDecodingContainer {
         throw CSVCodingError.unkeyedNotSupported
     }
+
 }

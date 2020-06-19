@@ -12,20 +12,21 @@ typealias DecoderDictionary = [String: (String) -> Decodable?]
 
 open class CSVDecoder {
 
-    // MARK: - Stored properties
+    // MARK: Stored Properties
 
     open var encoding = String.Encoding.utf8
     open var separator = CSVSeparator.default
     open var delimiter = CSVDelimiter.default
     open var enclosure = CSVEnclosure.default
+    open var nesting = CSVNesting.flatten
 
     private var decoders = DecoderDictionary()
 
-    // MARK: - Init
+    // MARK: Initialization
 
     public init() {}
 
-    // MARK: - Methods
+    // MARK: Methods
 
     open func decode<C: Decodable>(_ type: C.Type, from data: Data) throws -> [C] {
         guard let string = String(data: data, encoding: encoding) else {
@@ -57,7 +58,7 @@ open class CSVDecoder {
         decoders[C.identifier] = decoder
     }
 
-    // MARK: - Helpers
+    // MARK: Helpers
 
     private func split(row: Substring) throws -> [String] {
         return try CSVDecoder.split(row: row, separator: separator, enclosure: enclosure)
@@ -77,9 +78,20 @@ open class CSVDecoder {
                     accumulator = accumulator + header + separator.stringValue
                     return nil
                 }
-                guard !header.hasPrefix(enclosure.begin) else {
-                    accumulator = accumulator + header.dropFirst(enclosure.begin.count) + separator.stringValue
-                    return nil
+                guard header.hasPrefix(enclosure.begin) else {
+                    return header
+                }
+                if header.hasPrefix(enclosure.begin) {
+                    if header.hasSuffix(enclosure.end) {
+                        return String(
+                            header
+                                .dropFirst(enclosure.begin.count)
+                                .dropLast(enclosure.end.count)
+                        )
+                    } else {
+                        accumulator = accumulator + header.dropFirst(enclosure.begin.count) + separator.stringValue
+                        return nil
+                    }
                 }
                 return header
             }
@@ -90,4 +102,5 @@ open class CSVDecoder {
         
         return result
     }
+
 }

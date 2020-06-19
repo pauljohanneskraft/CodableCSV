@@ -9,7 +9,7 @@ import Foundation
 
 final class CSVUnkeyedEncodingContainer {
 
-    // MARK: - Stored properties
+    // MARK: Stored Properties
 
     var encoders = EncoderDictionary()
 }
@@ -18,7 +18,7 @@ final class CSVUnkeyedEncodingContainer {
 
 extension CSVUnkeyedEncodingContainer: UnkeyedEncodingContainer {
 
-    // MARK: - Computed properties
+    // MARK: Computed Properties
 
     var codingPath: [CodingKey] {
         return []
@@ -28,7 +28,7 @@ extension CSVUnkeyedEncodingContainer: UnkeyedEncodingContainer {
         return 0
     }
 
-    // MARK: - Methods
+    // MARK: Methods
 
     func encodeNil() throws {
         throw CSVCodingError.unkeyedNotSupported
@@ -108,4 +108,5 @@ extension CSVUnkeyedEncodingContainer: UnkeyedEncodingContainer {
         assertionFailure(CSVCodingError.nestingNotSupported.description)
         return CSVObjectEncoder(encoders: encoders)
     }
+
 }

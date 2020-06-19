@@ -8,13 +8,17 @@
 import Foundation
 
 extension Encodable {
+
     static var identifier: String {
         return String(describing: Self.self)
     }
+
 }
 
 extension Decodable {
+
     static var identifier: String {
         return String(describing: Self.self)
     }
+
 }
