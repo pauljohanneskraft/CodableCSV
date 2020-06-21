@@ -9,7 +9,11 @@ import Foundation
 
 private struct ChainStrategy: NestingStrategy {
 
+    // MARK: Stored Properties
+
     let separator: Character
+
+    // MARK: Methods
 
     func nest(codingPath: [CodingKey]) -> String {
         codingPath

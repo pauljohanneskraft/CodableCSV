@@ -20,7 +20,7 @@ final class CodableCSVTests: XCTestCase {
 
         XCTAssertNoThrow(try test(objects: [object0, object1, object2]))
 
-        let objects = (0..<1000).flatMap { _ in [object0, object1, object2] }
+        let objects = (0..<100).flatMap { _ in [object0, object1, object2] }
         measure {
             measurableTest(objects: objects)
         }
@@ -35,7 +35,7 @@ final class CodableCSVTests: XCTestCase {
         let person = Person(name: "Paul", age: 22)
         XCTAssertNoThrow(try test(objects: [person]))
 
-        let objects = (0..<1000).map { _ in person }
+        let objects = (0..<100).map { _ in person }
         measure {
             measurableTest(objects: objects)
         }
@@ -43,16 +43,27 @@ final class CodableCSVTests: XCTestCase {
 
     func testNesting() {
         struct InnerType: Codable, Equatable {
-            var name: String
+            var firstName: String
+            var lastName: String
+            var children: [OuterType]
         }
-        struct OuterType: Codable, Equatable {
+
+        struct OuterType: Codable, Equatable, CustomStringConvertible {
             var inner: InnerType
+
+            var description: String {
+                "Outer(firstName: \(inner.firstName), lastName: \(inner.lastName), children: \(inner.children))"
+            }
         }
 
-        let object = OuterType(inner: InnerType(name: "Paul"))
-        XCTAssertThrowsError(try test(objects: [object]))
+        let object = OuterType(inner: InnerType(firstName: "Paul", lastName: "Kraft", children: [
+            OuterType(inner: InnerType(firstName: "Child1", lastName: "Kraft", children: [])),
+        ]))
 
-        let objects = (0..<1000).map { _ in object }
+        print([object])
+        XCTAssertNoThrow(try test(objects: [object, object]))
+
+        let objects = (0..<100).map { _ in object }
         measure {
             measurableTest(objects: objects)
         }
@@ -68,17 +79,24 @@ final class CodableCSVTests: XCTestCase {
         }
 
         let objects = [OuterType(age: 10, inner: InnerType(name: "Paul")), OuterType(age: 12, inner: InnerType(name: "Peter"))]
-        let encoder = CSVEncoder()
-        encoder.register(encoder: { (inner: InnerType) in inner.name })
-        let decoder = CSVDecoder()
-        decoder.register(decoder: InnerType.init)
+
+        let encodingExpectation = self.expectation(description: "encoder")
+        encodingExpectation.expectedFulfillmentCount = 2
+        var encoder = CSVEncoder()
+        encoder.register(for: InnerType.self) { inner in
+            encodingExpectation.fulfill()
+            return inner.name
+        }
+        var decoder = CSVDecoder()
+        decoder.register(InnerType.init)
 
         let encoded = try! encoder.encode(objects)
+        wait(for: [encodingExpectation], timeout: 2)
         print(String(data: encoded, encoding: .utf8) ?? "nil")
         let decoded = try! decoder.decode(OuterType.self, from: encoded)
         XCTAssertEqual(objects, decoded)
 
-        let o = (0..<1000).flatMap { _ in objects }
+        let o = (0..<100).flatMap { _ in objects }
         measure {
             measurableTest(objects: o)
         }
@@ -91,24 +109,23 @@ final class CodableCSVTests: XCTestCase {
             var double: Double
             var float: Float
             var int64: Int64
-            var int32: Int32
+            var int32: Int32?
             var int16: Int16
             var int8: Int8
         }
 
-        let type0 = TestType(bool: false, int: 0, double: 1, float: 2, int64: 3, int32: 4, int16: 5, int8: 6)
+        let type0 = TestType(bool: false, int: 0, double: 1, float: 2, int64: 3, int32: nil, int16: 5, int8: 6)
         let type1 = TestType(bool: nil, int: 6, double: 5, float: 4, int64: 3, int32: 2, int16: 1, int8: 0)
         XCTAssertNoThrow(try test(objects: [type0, type1]))
 
-        let objects = (0..<1000).flatMap { _ in [type0, type1] }
+        let objects = (0..<100).flatMap { _ in [type0, type1] }
         measure {
             measurableTest(objects: objects)
         }
     }
 
     func testPrimitives() {
-        XCTAssertThrowsError(try test(objects: ["hallo", "bye"]))
-        XCTAssertThrowsError(try test(objects: [["hallo", "bye"], ["hallo", "bye"]]))
+        XCTAssertNoThrow(try test(objects: [["hallo", "bye", "test"], ["hallo", "bye"]]))
     }
 
     func testBigData() {
@@ -123,31 +140,44 @@ final class CodableCSVTests: XCTestCase {
     }
 
     func measurableTest<C: Codable & Equatable>(objects: [C]) {
-        let encoder = CSVEncoder()
-        let decoder = CSVDecoder()
+        var encoder = CSVEncoder()
+        var decoder = CSVDecoder()
+
+        encoder.nesting = .chain(separator: "_")
+        decoder.nesting = .chain(separator: "_")
 
         guard let encoded = try? encoder.encode(objects) else { return }
-        let symbol = CSVSeparator.detect(from: encoded, encoding: .utf8, possibleCharacters: [",", ";", "/"], delimiter: encoder.delimiter, enclosure: encoder.enclosure)
+        let symbol = CSVSeparator.detect(from: encoded,
+                                         candidates: [.comma, .colon, .custom("/")],
+                                         delimiter: encoder.delimiter,
+                                         enclosure: encoder.enclosure)
         XCTAssertEqual(symbol?.character, encoder.separator.character)
         guard let decoded = try? decoder.decode(C.self, from: encoded) else { return }
         XCTAssertEqual(objects, decoded)
     }
 
     func test<C: Codable & Equatable>(objects: [C]) throws {
-        let encoder = CSVEncoder()
-        let decoder = CSVDecoder()
+        var configuration = CSVConfiguration()
+        configuration.nesting = .chain(separator: "_")
+
+        var encoder = CSVEncoder(configuration: configuration)
+        var decoder = CSVDecoder(configuration: configuration)
 
         let separators = [CSVSeparator.comma, .colon, .custom("/")]
-        let separatorCharacters = Set(separators.map { $0.character })
 
         for separator in separators {
             encoder.separator = separator
             decoder.separator = separator
 
             let encoded = try encoder.encode(objects)
+            print("-- START ENCODED --")
             print(String(data: encoded, encoding: .utf8) ?? "nil")
+            print("-- End ENCODED --")
 
-            let symbol = CSVSeparator.detect(from: encoded, encoding: .utf8, possibleCharacters: separatorCharacters, delimiter: encoder.delimiter, enclosure: encoder.enclosure)
+            let symbol = CSVSeparator.detect(from: encoded,
+                                             candidates: separators,
+                                             delimiter: encoder.delimiter,
+                                             enclosure: encoder.enclosure)
             XCTAssertEqual(symbol?.character, separator.character)
             let decoded = try decoder.decode(C.self, from: encoded)
             XCTAssertEqual(objects, decoded)

@@ -8,37 +8,85 @@
 
 import Foundation
 
-typealias EncoderDictionary = [String: (Encodable) -> String?]
-
-open class CSVEncoder {
+public struct CSVEncoder {
 
     // MARK: Stored Properties
 
-    open var encoding = String.Encoding.utf8
-    open var separator = CSVSeparator.default
-    open var delimiter = CSVDelimiter.default
-    open var enclosure = CSVEnclosure.default
-    open var nesting = CSVNesting.flatten
-    open var sorting: (String, String) -> Bool = { $0 < $1 }
-
-    private var encoders = EncoderDictionary()
+    public var configuration: CSVConfiguration
 
     // MARK: Initialization
 
-    public init() {}
+    public init(configuration: CSVConfiguration = .init()) {
+        self.configuration = configuration
+    }
 
-    // MARK: Methods
+}
 
-    open func encodeString<C: Codable>(_ objects: [C]) throws -> String {
-        let encoders = try objects.map { object -> CSVObjectEncoder in
-            let encoder = CSVObjectEncoder(encoders: self.encoders)
+// MARK: - Configuration
+
+extension CSVEncoder {
+
+    public var delimiter: CSVDelimiter {
+        get { configuration.delimiter }
+        set { configuration.delimiter = newValue }
+    }
+
+    public var enclosure: CSVEnclosure {
+        get { configuration.enclosure }
+        set { configuration.enclosure = newValue }
+    }
+
+    public var encoding: String.Encoding {
+        get { configuration.encoding }
+        set { configuration.encoding = newValue }
+    }
+
+    public var nesting: CSVNesting {
+        get { configuration.nesting }
+        set { configuration.nesting = newValue }
+    }
+
+    public var none: CSVNone {
+        get { configuration.none }
+        set { configuration.none = newValue }
+    }
+
+    public var separator: CSVSeparator {
+        get { configuration.separator }
+        set { configuration.separator = newValue }
+    }
+
+    public var sorting: (String, String) -> Bool {
+        get { configuration.sorting }
+        set { configuration.sorting = newValue }
+    }
+
+    public var unkeying: CSVUnkeying {
+        get { configuration.unkeying }
+        set { configuration.unkeying = newValue }
+    }
+
+    public mutating func register<C: Encodable>(for _: C.Type = C.self, _ encoder: @escaping Encode<C>) {
+        configuration.encode(using: encoder)
+    }
+
+}
+
+// MARK: - Encoding
+
+extension CSVEncoder {
+
+    public func encodeString<C: Codable>(_ objects: [C]) throws -> String {
+        let encoders = try objects.map { object -> EncodingStorage in
+            let storage = EncodingStorage(configuration: configuration)
+            let encoder = SingleValueEncoder(storage: storage, codingPath: [])
             try object.encode(to: encoder)
-            return encoder
+            return storage
         }
 
-        let headers = encoders.reduce(Set<String>()) {
-            $0.union($1.dictionary.keys)
-        }
+        let headers = encoders
+            .reduce(Set<String>()) { $0.union($1.dictionary.keys) }
+            .sorted(by: configuration.sorting)
 
         let keys = headers.joined(separator: separator.stringValue)
 
@@ -59,15 +107,11 @@ open class CSVEncoder {
         return keys + delimiter.stringValue + rows
     }
 
-    open func encode<C: Codable>(_ objects: [C]) throws -> Data {
+    public func encode<C: Codable>(_ objects: [C]) throws -> Data {
         guard let data = try encodeString(objects).data(using: encoding) else {
-            throw CSVCodingError.wrongEncoding(encoding)
+            throw CSVCodingError.incorrectEncoding(encoding)
         }
         return data
-    }
-
-    open func register<C: Encodable>(encoder: @escaping (C) -> String?) {
-        encoders[C.identifier] = { encoder($0 as! C) }
     }
 
 }

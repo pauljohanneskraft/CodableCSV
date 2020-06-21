@@ -9,6 +9,8 @@ import Foundation
 
 private struct FlattenStrategy: NestingStrategy {
 
+    // MARK: Methods
+
     func nest(codingPath: [CodingKey]) -> String {
         guard let last = codingPath.last else { return "" }
         return last.intValue?.description ?? last.stringValue
@@ -22,8 +24,6 @@ private struct FlattenStrategy: NestingStrategy {
 
 extension CSVNesting {
 
-    public static var flatten: CSVNesting {
-        .init(strategy: FlattenStrategy())
-    }
+    public static let flatten = CSVNesting(strategy: FlattenStrategy())
 
 }

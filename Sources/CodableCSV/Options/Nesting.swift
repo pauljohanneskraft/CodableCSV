@@ -14,7 +14,15 @@ public protocol NestingStrategy {
 
 public struct CSVNesting {
 
+    // MARK: Static Properties
+
+    static let `default` = flatten
+
+    // MARK: Stored Properties
+
     public let strategy: NestingStrategy
+
+    // MARK: Initialization
 
     public init(strategy: NestingStrategy) {
         self.strategy = strategy
