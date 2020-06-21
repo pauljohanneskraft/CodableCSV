@@ -5,8 +5,6 @@
 //  Created by Paul Kraft on 21.06.20.
 //
 
-import Foundation
-
 public typealias Decode<T> = (String) throws -> T
 typealias Decoders = [String: Decode<Decodable>]
 

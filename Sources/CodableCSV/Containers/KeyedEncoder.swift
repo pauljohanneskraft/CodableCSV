@@ -5,8 +5,6 @@
 //  Created by Paul Kraft on 21.06.20.
 //
 
-import Foundation
-
 struct KeyedEncoder<Key: CodingKey>: EncodingContainer {
 
     let storage: EncodingStorage

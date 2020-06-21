@@ -5,8 +5,6 @@
 //  Created by Paul Kraft on 21.06.20.
 //
 
-import Foundation
-
 private struct WordStrategy: NoneStrategy {
 
     let word: String

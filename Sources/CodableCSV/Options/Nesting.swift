@@ -5,8 +5,6 @@
 //  Created by Paul Kraft on 19.08.18.
 //
 
-import Foundation
-
 public protocol NestingStrategy {
     func nest(codingPath: [CodingKey]) -> String
     func key<Key: CodingKey>(codingPath: [CodingKey], for string: String) -> Key?

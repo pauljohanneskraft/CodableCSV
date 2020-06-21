@@ -5,8 +5,6 @@
 //  Created by Paul Kraft on 20.08.18.
 //
 
-import Foundation
-
 extension Encodable {
 
     static var identifier: String {

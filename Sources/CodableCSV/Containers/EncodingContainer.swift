@@ -5,8 +5,6 @@
 //  Created by Paul Kraft on 21.06.20.
 //
 
-import Foundation
-
 protocol EncodingContainer: Encoder {
     var storage: EncodingStorage { get }
     var codingPath: [CodingKey] { get }

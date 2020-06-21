@@ -6,8 +6,6 @@
 //  Copyright © 2018 Paul Kraft. All rights reserved.
 //
 
-import Foundation
-
 protocol DecodingContainer: Decoder {
     var storage: DecodingStorage { get }
     var codingPath: [CodingKey] { get }

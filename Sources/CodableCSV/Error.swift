@@ -6,8 +6,6 @@
 //  Copyright © 2018 Paul Kraft. All rights reserved.
 //
 
-import Foundation
-
 public enum CSVCodingError: Error {
     case incorrectEncoding(String.Encoding)
     case headerMismatch

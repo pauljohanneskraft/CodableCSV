@@ -5,8 +5,6 @@
 //  Created by Paul Kraft on 19.08.18.
 //
 
-import Foundation
-
 public struct CSVEnclosure {
 
     // MARK: Static Properties
