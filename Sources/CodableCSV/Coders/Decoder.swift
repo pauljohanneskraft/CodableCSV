@@ -8,33 +8,77 @@
 
 import Foundation
 
-typealias DecoderDictionary = [String: (String) -> Decodable?]
+public struct CSVDecoder {
 
-open class CSVDecoder {
+    // MARK: Stored Properties
 
-    // MARK: - Stored properties
+    public var configuration: CSVConfiguration
 
-    open var encoding = String.Encoding.utf8
-    open var separator = CSVSeparator.default
-    open var delimiter = CSVDelimiter.default
-    open var enclosure = CSVEnclosure.default
+    // MARK: Initialization
 
-    private var decoders = DecoderDictionary()
+    public init(configuration: CSVConfiguration = .init()) {
+        self.configuration = configuration
+    }
 
-    // MARK: - Init
+}
 
-    public init() {}
+// MARK: - Computed Properties
 
-    // MARK: - Methods
+extension CSVDecoder {
 
-    open func decode<C: Decodable>(_ type: C.Type, from data: Data) throws -> [C] {
+    public var delimiter: CSVDelimiter {
+        get { configuration.delimiter }
+        set { configuration.delimiter = newValue }
+    }
+    
+    public var enclosure: CSVEnclosure {
+        get { configuration.enclosure }
+        set { configuration.enclosure = newValue }
+    }
+    
+    public var encoding: String.Encoding {
+        get { configuration.encoding }
+        set { configuration.encoding = newValue }
+    }
+    
+    public var nesting: CSVNesting {
+        get { configuration.nesting }
+        set { configuration.nesting = newValue }
+    }
+    
+    public var none: CSVNone {
+        get { configuration.none }
+        set { configuration.none = newValue }
+    }
+    
+    public var separator: CSVSeparator {
+        get { configuration.separator }
+        set { configuration.separator = newValue }
+    }
+    
+    public var unkeying: CSVUnkeying {
+        get { configuration.unkeying }
+        set { configuration.unkeying = newValue }
+    }
+
+    public mutating func register<C: Decodable>(for _: C.Type = C.self, _ decoder: @escaping Decode<C>) {
+        configuration.decode(using: decoder)
+    }
+
+}
+
+// MARK: - Decoding
+
+extension CSVDecoder {
+
+    public func decode<C: Decodable>(_ type: C.Type = C.self, from data: Data) throws -> [C] {
         guard let string = String(data: data, encoding: encoding) else {
-            throw CSVCodingError.wrongEncoding(encoding)
+            throw CSVCodingError.incorrectEncoding(encoding)
         }
         return try decode(type, from: string)
     }
 
-    open func decode<C: Decodable>(_ type: C.Type, from string: String) throws -> [C] {
+    public func decode<C: Decodable>(_ type: C.Type = C.self, from string: String) throws -> [C] {
         let lines = try string
             .split(separator: delimiter.character)
             .map(split)
@@ -43,51 +87,81 @@ open class CSVDecoder {
             return []
         }
 
-        return try lines.dropFirst().map { values in
-            let decoder = try CSVObjectDecoder(
-                headers: headers,
-                values: values,
-                decoders: decoders
-            )
-            return try C(from: decoder)
+        return try lines.dropFirst()
+            .map { try decodeSingle(headers: headers, values: $0) }
+    }
+
+    private func decodeSingle<C: Decodable>(_ type: C.Type = C.self, headers: [String], values: [String]) throws -> C {
+        guard headers.count == values.count else {
+            throw CSVCodingError.headerMismatch
         }
+
+        var dictionary = [String: String]()
+        for i in headers.indices {
+            dictionary[headers[i]] = values[i]
+        }
+
+        let storage = DecodingStorage(dictionary: dictionary, configuration: configuration)
+        let decoder = SingleValueDecoder(storage: storage, codingPath: [])
+        return try C(from: decoder)
     }
 
-    open func register<C: Decodable>(decoder: @escaping (String) -> C?) {
-        decoders[C.identifier] = decoder
-    }
+}
 
-    // MARK: - Helpers
+// MARK: - Helpers
 
-    private func split(row: Substring) throws -> [String] {
-        return try CSVDecoder.split(row: row, separator: separator, enclosure: enclosure)
-    }
+extension CSVDecoder {
 
     static func split(row: Substring, separator: CSVSeparator, enclosure: CSVEnclosure) throws -> [String] {
         var accumulator = ""
         let result = row
             .split(separator: separator.character, omittingEmptySubsequences: false)
-            .map(String.init)
-            .compactMap { header -> String? in
-                if header.hasSuffix(enclosure.end) && !accumulator.isEmpty {
-                    defer { accumulator = "" }
-                    return accumulator + header.dropLast(enclosure.end.count)
-                }
-                guard accumulator.isEmpty else {
-                    accumulator = accumulator + header + separator.stringValue
-                    return nil
-                }
-                guard !header.hasPrefix(enclosure.begin) else {
-                    accumulator = accumulator + header.dropFirst(enclosure.begin.count) + separator.stringValue
-                    return nil
-                }
-                return header
-            }
+            .compactMap { newHeader(in: $0, accumulator: &accumulator, separator: separator, enclosure: enclosure) }
 
         guard accumulator.isEmpty else {
             throw CSVCodingError.enclosureConflict
         }
-        
+
         return result
     }
+
+    private func split(row: Substring) throws -> [String] {
+        return try CSVDecoder.split(row: row, separator: separator, enclosure: enclosure)
+    }
+
+    private static func newHeader(in header: Substring,
+                                  accumulator: inout String,
+                                  separator: CSVSeparator,
+                                  enclosure: CSVEnclosure) -> String? {
+
+        guard accumulator.isEmpty else {
+
+            guard !header.hasSuffix(enclosure.end) else {
+                defer { accumulator.removeAll(keepingCapacity: true) }
+                return accumulator + header.dropLast(enclosure.end.count)
+            }
+
+            accumulator.append(contentsOf: header + separator.stringValue)
+            return nil
+
+        }
+
+        guard header.hasPrefix(enclosure.begin) else {
+            return String(header)
+        }
+
+        let headerWithoutPrefix = header.dropFirst(enclosure.begin.count)
+
+        if headerWithoutPrefix.hasSuffix(enclosure.end) {
+            return String(
+                headerWithoutPrefix
+                    .dropLast(enclosure.end.count)
+            )
+        }
+
+        accumulator = headerWithoutPrefix + separator.stringValue
+        return nil
+
+    }
+
 }
