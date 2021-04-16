@@ -102,6 +102,38 @@ final class CodableCSVTests: XCTestCase {
         }
     }
 
+    func testNesting3() {
+        struct InnerType: Codable, Equatable {
+            var name: String
+        }
+        struct OuterType: Codable, Equatable {
+            var age: Int
+            var inner: InnerType?
+        }
+        let objects = [OuterType(age: 10, inner: InnerType(name: "Paul")), OuterType(age: 12, inner: InnerType(name: "Peter")), OuterType(age: 15, inner: nil)]
+
+        let encodingExpectation = self.expectation(description: "encoder")
+        encodingExpectation.expectedFulfillmentCount = 2
+        var encoder = CSVEncoder()
+        encoder.register(for: InnerType.self) { inner in
+            encodingExpectation.fulfill()
+            return inner.name
+        }
+        var decoder = CSVDecoder()
+        decoder.register(InnerType.init)
+
+        let encoded = try! encoder.encode(objects)
+        wait(for: [encodingExpectation], timeout: 2)
+        print(String(data: encoded, encoding: .utf8) ?? "nil")
+        let decoded = try! decoder.decode(OuterType.self, from: encoded)
+        XCTAssertEqual(objects, decoded)
+
+        let o = (0..<100).flatMap { _ in objects }
+        measure {
+            measurableTest(objects: o)
+        }
+    }
+
     func testAllPrimitives() {
         struct TestType: Codable, Equatable {
             var bool: Bool?

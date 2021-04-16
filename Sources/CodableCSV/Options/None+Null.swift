@@ -13,7 +13,7 @@ private struct WordStrategy: NoneStrategy {
         word
     }
 
-    func decodeNil(_ string: String, codingPath: [CodingKey]) throws -> Bool {
+    func decodeNil(_ string: String, codingPath: [CodingKey]) -> Bool {
         string == word
     }
 

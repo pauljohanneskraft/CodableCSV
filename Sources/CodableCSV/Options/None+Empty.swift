@@ -11,7 +11,7 @@ private struct EmptyStrategy: NoneStrategy {
         .init()
     }
 
-    func decodeNil(_ string: String, codingPath: [CodingKey]) throws -> Bool {
+    func decodeNil(_ string: String, codingPath: [CodingKey]) -> Bool {
         string.isEmpty
     }
 

@@ -41,6 +41,18 @@ extension KeyedDecoder: KeyedDecodingContainerProtocol {
         return try decoder.decode(T.self)
     }
 
+    func decodeIfPresent<T: Decodable>(_ type: T.Type, forKey key: Key) throws -> T? {
+        do {
+            return try decode(T.self, forKey: key)
+        } catch {
+            if try decodeNil(forKey: key) {
+                return nil
+            } else {
+                throw error
+            }
+        }
+    }
+
     // MARK: Methods - Containers
 
     func nestedContainer<NestedKey: CodingKey>(keyedBy type: NestedKey.Type,

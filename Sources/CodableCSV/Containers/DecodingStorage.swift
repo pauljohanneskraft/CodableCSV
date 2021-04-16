@@ -46,6 +46,9 @@ final class DecodingStorage {
         guard let value = dictionary[nesting.nest(codingPath: codingPath)] else {
             throw CSVCodingError.pathNotFound(codingPath)
         }
+        if none.decodeNil(value, codingPath: codingPath) {
+            throw CSVCodingError.couldNotDecode(value, as: String.self)
+        }
         return value
     }
 
@@ -56,7 +59,7 @@ final class DecodingStorage {
     func isAtEnd(codingPath: [CodingKey]) -> Bool {
         let key = nesting.nest(codingPath: codingPath)
         if let value = dictionary[key] {
-            return (try? none.decodeNil(value, codingPath: codingPath)) ?? true
+            return none.decodeNil(value, codingPath: codingPath)
         }
         return !dictionary.keys.contains(where: { $0.hasPrefix(key) })
     }

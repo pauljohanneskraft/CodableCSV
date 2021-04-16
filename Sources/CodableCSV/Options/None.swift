@@ -7,7 +7,7 @@
 
 public protocol NoneStrategy {
     func encodeNil(codingPath: [CodingKey]) throws -> String
-    func decodeNil(_ string: String, codingPath: [CodingKey]) throws -> Bool
+    func decodeNil(_ string: String, codingPath: [CodingKey]) -> Bool
 }
 
 public struct CSVNone {
