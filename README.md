@@ -1,12 +1,6 @@
-![](README_Assets/Logo.png)
+![CodableCSV](https://user-images.githubusercontent.com/15239005/165396791-9bd01540-4327-4f39-9e23-988c7b0b5841.png)
 
-[![Version](https://img.shields.io/cocoapods/v/CodableCSV.svg?style=flat)](https://cocoapods.org/pods/CodableCSV)
-[![License](https://img.shields.io/cocoapods/l/CodableCSV.svg?style=flat)](https://cocoapods.org/pods/CodableCSV)
-[![Platform](https://img.shields.io/cocoapods/p/CodableCSV.svg?style=flat)](https://cocoapods.org/pods/CodableCSV)
-
-## Overview
-
-Use CodableCSV to enable JSON-like parsing using the Codable protocols in Swift.
+Use CodableCSV for JSON-like  CSV file parsing using the Codable protocols in Swift.
 
 ## Custom coding options
 
