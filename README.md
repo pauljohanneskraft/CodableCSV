@@ -49,7 +49,7 @@ pod 'CodableCSV'
 
 ## Author
 
-pauljohanneskraft, pauljohanneskraft@icloud.com
+Paul Kraft
 
 ## License
 
